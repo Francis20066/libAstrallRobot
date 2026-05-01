@@ -107,6 +107,10 @@ if(ASTRALL_BUILD_TESTS)
     target_link_libraries(astrall_backend_interface_test PRIVATE astrall_core)
     add_test(NAME astrall_backend_interface_test COMMAND astrall_backend_interface_test)
 
+    add_executable(astrall_sim_backend_test tests/test_sim_backend.cpp)
+    target_link_libraries(astrall_sim_backend_test PRIVATE astrall_core)
+    add_test(NAME astrall_sim_backend_test COMMAND astrall_sim_backend_test)
+
     add_executable(astrall_sdk_wrapper_fake_test
         tests/test_astrall_sdk_wrapper_fake.cpp
         src/sdk/astrall_sdk_wrapper.cpp

@@ -1,0 +1,20 @@
+astrall_sim_node:
+  ros__parameters:
+    max_vx: 1.0
+    max_vy: 0.5
+    max_w: 1.0
+    sim_dt: 0.02
+    publish_period_ms: 20
+    cmd_vel_timeout_ms: 500
+    odom_frame_id: odom
+    map_frame_id: odom
+    base_frame_id: base_link
+    imu_frame_id: imu_link
+    publish_map: true
+    publish_pointcloud: true
+    lidar_range_m: 8.0
+    lidar_ray_count: 181
+    lidar_fov_rad: 3.839724354
+    map_resolution_m: 0.1
+    map_width_m: 16.0
+    map_height_m: 12.0
