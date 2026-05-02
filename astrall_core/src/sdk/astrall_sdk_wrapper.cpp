@@ -56,9 +56,11 @@ void AstrallSdkWrapper::shutdown() noexcept {
         auto noop_imu = [](const AstrallImuData&) {};
         auto noop_sport = [](const AstrallSportData&) {};
         auto noop_joystick = [](const AstrallJoystickData&) {};
+        auto noop_camera = [](void*, std::uint16_t) {};
         rememberResult(client_->subscribe_imu(noop_imu, Frequency::close, timeoutFrom(config_.command_timeout_ms)));
         rememberResult(client_->subscribe_sport(noop_sport, Frequency::close, timeoutFrom(config_.command_timeout_ms)));
         rememberResult(client_->subscribe_joystick(noop_joystick, Frequency::close, timeoutFrom(config_.command_timeout_ms)));
+        rememberResult(client_->subscribe(Topic::camera_rgb, Frequency::close, noop_camera, timeoutFrom(config_.command_timeout_ms)));
 
         if (controlling) {
             rememberResult(client_->set_auth(Auth::joystick, timeoutFrom(config_.command_timeout_ms)));
@@ -198,6 +200,19 @@ bool AstrallSdkWrapper::subscribeJoystick(int freq_hz) {
             latest_joystick_ = data;
         },
         frequencyFromHz(freq_hz),
+        timeoutFrom(config_.command_timeout_ms)));
+}
+
+bool AstrallSdkWrapper::subscribeCamera(int freq_hz) {
+    std::lock_guard<std::mutex> api_lock(api_mutex_);
+    if (!client_) {
+        return false;
+    }
+
+    return succeededAndRemember(client_->subscribe(
+        Topic::camera_rgb,
+        frequencyFromHz(freq_hz),
+        [](void*, std::uint16_t) {},
         timeoutFrom(config_.command_timeout_ms)));
 }
 

@@ -7,6 +7,7 @@
 #include "astrall/backend/backend_factory.hpp"
 #include "astrall/device/dummy_camera.hpp"
 #include "astrall/device/dummy_radar.hpp"
+#include "astrall/device/real_camera.hpp"
 #include "astrall/planning/straight_line_planner.hpp"
 
 namespace astrall {
@@ -31,13 +32,23 @@ std::shared_ptr<Planner> createPlanner(const YAML::Node& config) {
 
 std::shared_ptr<Camera> createCamera(const YAML::Node& config) {
     const std::string camera_type = getOr(config, "type", std::string("dummy"));
-    if (camera_type != "dummy") {
-        throw std::runtime_error("Unsupported camera type: " + camera_type);
+    if (camera_type == "dummy") {
+        return std::make_shared<DummyCamera>(
+            getOr(config, "width", 640),
+            getOr(config, "height", 480),
+            getOr(config, "channels", 3));
     }
-    return std::make_shared<DummyCamera>(
-        getOr(config, "width", 640),
-        getOr(config, "height", 480),
-        getOr(config, "channels", 3));
+    if (camera_type == "real") {
+        RealCameraConfig cfg;
+        cfg.udp_url = getOr(config, "udp_url", std::string("udp://0.0.0.0:6000"));
+        cfg.width = getOr(config, "width", 640);
+        cfg.height = getOr(config, "height", 480);
+        cfg.channels = getOr(config, "channels", 3);
+        auto camera = std::make_shared<RealCamera>(cfg);
+        camera->open();
+        return camera;
+    }
+    throw std::runtime_error("Unsupported camera type: " + camera_type);
 }
 
 std::shared_ptr<Radar> createRadar(const YAML::Node& config) {

@@ -48,6 +48,7 @@ public:
     bool subscribeImu(int freq_hz);
     bool subscribeSport(int freq_hz);
     bool subscribeJoystick(int freq_hz);
+    bool subscribeCamera(int freq_hz);
 
     Result lastResult() const;
     bool hasControlAuthority() const;
