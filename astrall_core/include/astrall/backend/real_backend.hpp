@@ -21,6 +21,7 @@ struct RealBackendConfig {
     std::uint32_t command_timeout_ms = 20;
     int imu_frequency_hz = 250;
     int sport_frequency_hz = 250;
+    int camera_frequency_hz = 25;
     std::string sdk_quaternion_order = "xyzw";
     bool request_control = true;
 };

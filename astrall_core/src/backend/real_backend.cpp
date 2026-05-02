@@ -210,6 +210,9 @@ void RealBackend::initializeSdk() {
     if (!sdk_->subscribeSport(config_.sport_frequency_hz)) {
         throw std::runtime_error("Astrall SDK SPORT subscription failed in RealBackend");
     }
+    if (!sdk_->subscribeCamera(config_.camera_frequency_hz)) {
+        throw std::runtime_error("Astrall SDK camera subscription failed in RealBackend");
+    }
     initialized_ = true;
 #else
     throw std::runtime_error("RealBackend requires ASTRALL_ENABLE_SDK=ON");

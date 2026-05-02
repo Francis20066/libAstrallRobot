@@ -31,6 +31,12 @@ camera:
   width: 640
   height: 480
   channels: 3
+  # Real camera config (requires ASTRALL_ENABLE_SDK=ON):
+  # type: real
+  # udp_url: "udp://0.0.0.0:6000"
+  # width: 640
+  # height: 480
+  # channels: 3
 
 radar:
   type: dummy

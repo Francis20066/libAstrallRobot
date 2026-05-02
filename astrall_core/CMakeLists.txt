@@ -24,6 +24,7 @@ find_package(yaml-cpp REQUIRED)
 
 if(ASTRALL_ENABLE_SDK)
     add_subdirectory(lib/astrall_sdk)
+    find_package(OpenCV REQUIRED COMPONENTS core imgproc videoio)
 endif()
 
 if(TARGET yaml-cpp::yaml-cpp)
@@ -54,9 +55,13 @@ set(ASTRALL_CORE_PRIVATE_LIBS)
 if(ASTRALL_ENABLE_SDK)
     list(APPEND ASTRALL_CORE_SOURCES
         src/sdk/astrall_sdk_wrapper.cpp
+        src/device/real_camera.cpp
     )
     list(APPEND ASTRALL_CORE_PRIVATE_LIBS
         astrall::sdk
+        opencv_core
+        opencv_imgproc
+        opencv_videoio
     )
 endif()
 

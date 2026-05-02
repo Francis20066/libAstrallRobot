@@ -9,6 +9,7 @@
 #include "astrall/device/dummy_camera.hpp"
 #include "astrall/device/dummy_radar.hpp"
 #include "astrall/device/radar.hpp"
+#include "astrall/device/real_camera.hpp"
 
 namespace py = pybind11;
 
@@ -52,6 +53,11 @@ void bind_device(py::module_& m) {
 
     py::class_<astrall::DummyCamera, astrall::Camera, std::shared_ptr<astrall::DummyCamera>>(m, "DummyCamera")
         .def(py::init<int, int, int>(), py::arg("width") = 640, py::arg("height") = 480, py::arg("channels") = 3);
+
+    py::class_<astrall::RealCamera, astrall::Camera, std::shared_ptr<astrall::RealCamera>>(m, "RealCamera")
+        .def("open", &astrall::RealCamera::open)
+        .def("close", &astrall::RealCamera::close)
+        .def("is_open", &astrall::RealCamera::isOpen);
 
     py::class_<astrall::PointXYZI>(m, "PointXYZI")
         .def(py::init<>())
