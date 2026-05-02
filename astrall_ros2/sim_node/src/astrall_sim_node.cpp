@@ -88,7 +88,8 @@ private:
         publish_pointcloud_ = declare_parameter("publish_pointcloud", true);
         publish_map_ = declare_parameter("publish_map", true);
         lidar_range_m_ = std::max(0.5, declare_parameter("lidar_range_m", 8.0));
-        lidar_ray_count_ = std::max(16, declare_parameter("lidar_ray_count", 181));
+        lidar_ray_count_ = static_cast<int>(
+            std::max<int64_t>(16, declare_parameter("lidar_ray_count", 181)));
         lidar_fov_rad_ = std::max(0.1, declare_parameter("lidar_fov_rad", 3.839724354));
         map_resolution_m_ = std::max(0.02, declare_parameter("map_resolution_m", 0.1));
         map_width_m_ = std::max(2.0, declare_parameter("map_width_m", 16.0));
